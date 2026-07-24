@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Junhyeok Kim — Portfolio</title>
+<style>
+  :root{
+    --bg:#0d1117;
+    --bg-alt:#0a0e14;
+    --panel:#161b22;
+    --panel-2:#1c2128;
+    --border:#30363d;
+    --text:#c9d1d9;
+    --text-dim:#8b949e;
+    --accent:#58a6ff;
+    --accent-2:#7ee787;
+    --accent-3:#f0883e;
+    --danger:#ff5f56;
+    --warn:#ffbd2e;
+    --ok:#27c93f;
+    --mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Pretendard", "Noto Sans KR", sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:
+      radial-gradient(circle at 15% 0%, rgba(88,166,255,.08), transparent 40%),
+      radial-gradient(circle at 85% 20%, rgba(126,231,135,.06), transparent 40%),
+      var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    min-height:100vh;
+  }
+  a{color:inherit; text-decoration:none;}
+  ::selection{background:rgba(88,166,255,.35);}
+
+  /* ---------- Top Nav ---------- */
+  header.nav{
+    position:sticky; top:0; z-index:500;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 32px;
+    background:rgba(13,17,23,.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  .brand{
+    font-family:var(--sans);
+    font-weight:700; font-size:15px;
+    color:var(--text);
+    display:flex; align-items:center; gap:8px;
+  }
+  .brand .dot{width:9px;height:9px;border-radius:50%;background:var(--accent-2); box-shadow:0 0 8px var(--accent-2);}
+
+  /* ---------- Notion-style right-side TOC ---------- */
+  .toc{
+    position:fixed; right:26px; top:50%; transform:translateY(-50%); z-index:400;
+    display:flex; flex-direction:column; gap:14px;
+  }
+  .toc a{
+    font-size:12.5px; color:var(--text-dim); padding:3px 0 3px 14px; border-left:2px solid var(--border);
+    transition:.15s;
+  }
+  .toc a:hover{color:var(--accent); border-left-color:var(--accent);}
+  .toc a.active{color:var(--accent); border-left-color:var(--accent); font-weight:600;}
+  @media (max-width:900px){.toc{display:none;}}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    max-width:960px; margin:0 auto; padding:110px 32px 80px;
+  }
+  .hero h1{
+    font-size:clamp(32px,5vw,54px);
+    font-weight:800; color:#fff; letter-spacing:-1px;
+    margin-bottom:10px;
+  }
+  .hero h1 .hl{color:var(--accent);}
+  .hero .role{
+    font-family:var(--sans); font-size:clamp(16px,2vw,20px); color:var(--text-dim); margin-bottom:26px;
+  }
+  .caret{display:inline-block; width:9px; height:1.1em; background:var(--accent); vertical-align:-2px; animation:blink 1s steps(1) infinite;}
+  @keyframes blink{50%{opacity:0;}}
+  .hero p.desc{max-width:640px; color:var(--text-dim); font-size:15.5px; margin-bottom:32px;}
+  .hero p.desc b{color:var(--text); font-weight:600;}
+  .cta-row{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{
+    font-family:var(--sans); font-size:13.5px; padding:11px 20px; border-radius:8px;
+    border:1px solid var(--border); transition:.15s;
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .btn.primary{background:var(--accent); color:#0d1117; font-weight:700; border-color:var(--accent);}
+  .btn.primary:hover{background:#7cb8ff;}
+  .btn.ghost{color:var(--text);}
+  .btn.ghost:hover{border-color:var(--accent); color:var(--accent);}
+
+  /* ---------- Section shell ---------- */
+  section{max-width:1040px; margin:0 auto; padding:70px 32px;}
+  h2.section-title{font-size:26px; color:#fff; margin-bottom:34px; font-weight:700;}
+
+  /* ---------- Skills ---------- */
+  .card{
+    background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:24px;
+  }
+  .skills-card{padding:18px 20px;}
+  .skills-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:14px 22px;}
+  .skill-cat h4{font-family:var(--sans); font-size:11px; color:var(--text-dim); text-transform:uppercase; letter-spacing:.06em; margin-bottom:8px;}
+  .tags{display:flex; flex-wrap:wrap; gap:6px;}
+  .tag{
+    font-family:var(--sans); font-size:11.5px; padding:3px 9px; border-radius:6px;
+    background:var(--panel-2); border:1px solid var(--border); color:var(--accent-2);
+  }
+  .tag.blue{color:var(--accent);}
+  .tag.orange{color:var(--accent-3);}
+
+  /* ---------- Projects (desktop icons) ---------- */
+  .desktop{
+    background:var(--bg-alt); border:1px solid var(--border); border-radius:14px;
+    padding:40px; position:relative; overflow:hidden;
+    min-height:260px;
+  }
+  .desktop::before{
+    content:""; position:absolute; inset:0;
+    background-image:radial-gradient(rgba(255,255,255,.035) 1px, transparent 1px);
+    background-size:22px 22px; pointer-events:none;
+  }
+  .icon-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:22px; position:relative; z-index:1;}
+  .icon-item{
+    background:var(--panel); border:1px solid var(--border); border-radius:14px;
+    padding:26px 28px; cursor:pointer; transition:.15s;
+    display:flex; flex-direction:column; justify-content:space-between; gap:16px;
+    aspect-ratio:16/9; min-height:170px;
+  }
+  .icon-item:hover, .icon-item:focus{background:var(--panel-2); border-color:rgba(88,166,255,.4); transform:translateY(-2px);}
+  .icon-top{display:flex; align-items:center; gap:14px;}
+  .icon-glyph{
+    width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center;
+    font-size:24px; background:linear-gradient(145deg,var(--panel-2),var(--panel)); border:1px solid var(--border);
+    flex-shrink:0;
+  }
+  .icon-item .icon-title{font-family:var(--sans); font-size:15px; color:#fff; font-weight:700; line-height:1.35;}
+  .icon-item .icon-desc{font-size:13px; color:var(--text-dim); line-height:1.6;}
+  .icon-item small{font-family:var(--sans); font-size:11px; color:var(--accent-2);}
+
+  /* ---------- Windows ---------- */
+  .win-overlay{
+    display:none; position:fixed; inset:0; z-index:900;
+    background:rgba(1,4,9,.55); backdrop-filter:blur(2px);
+  }
+  .win-overlay.open{display:block;}
+  .window{
+    display:none; flex-direction:column;
+    position:fixed; top:6%; left:50%; transform:translateX(-50%);
+    width:min(760px,92vw); max-height:86vh;
+    background:var(--panel); border:1px solid var(--border); border-radius:12px;
+    box-shadow:0 30px 80px rgba(0,0,0,.55);
+    z-index:901; overflow:hidden;
+  }
+  .window.open{display:flex;}
+  .win-titlebar{
+    display:flex; align-items:center; gap:8px; padding:12px 14px;
+    background:var(--panel-2); border-bottom:1px solid var(--border);
+    cursor:grab; user-select:none;
+  }
+  .win-titlebar:active{cursor:grabbing;}
+  .traffic{display:flex; gap:8px; margin-right:10px;}
+  .traffic button{
+    width:13px; height:13px; border-radius:50%; border:none; cursor:pointer; padding:0;
+    position:relative;
+  }
+  .traffic .close{background:var(--danger);}
+  .traffic .min{background:var(--warn);}
+  .traffic .max{background:var(--ok);}
+  .traffic button::after{
+    content:""; position:absolute; inset:0; border-radius:50%;
+    box-shadow:inset 0 0 0 1px rgba(0,0,0,.15);
+  }
+  .win-title{font-family:var(--sans); font-size:12.5px; color:var(--text-dim); flex:1; text-align:center; padding-right:60px;}
+  .win-body{padding:26px 28px; overflow-y:auto; font-size:14.5px;}
+  .win-body::-webkit-scrollbar{width:9px;}
+  .win-body::-webkit-scrollbar-thumb{background:var(--border); border-radius:5px;}
+
+  .proj-header{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:6px;}
+  .proj-header h3{font-size:20px; color:#fff;}
+  .badge{font-family:var(--sans); font-size:11px; padding:3px 9px; border-radius:20px; border:1px solid var(--border); color:var(--text-dim);}
+  .proj-period{font-family:var(--sans); font-size:12.5px; color:var(--accent-2); margin-bottom:18px;}
+
+  .win-body h4.sub{
+    font-family:var(--sans); font-size:12px; text-transform:uppercase; letter-spacing:.07em;
+    color:var(--accent); margin:20px 0 10px; display:flex; align-items:center; gap:8px;
+  }
+  .win-body h4.sub::before{content:"▸";}
+  .win-body p{color:var(--text-dim); font-size:14px; margin-bottom:8px;}
+  .win-body ul{padding-left:18px; color:var(--text-dim); font-size:14px;}
+  .win-body ul li{margin-bottom:7px;}
+  .win-body b{color:var(--text);}
+  .arch-box{
+    font-family:var(--mono); font-size:12px; color:var(--accent-2); background:var(--bg-alt);
+    border:1px solid var(--border); border-radius:8px; padding:14px 16px; white-space:pre; overflow-x:auto; line-height:1.7;
+  }
+  .ts-item{background:var(--bg-alt); border:1px solid var(--border); border-radius:8px; padding:14px 16px; margin-bottom:10px;}
+  .ts-item .k{font-family:var(--sans); font-size:11px; color:var(--danger); margin-bottom:4px;}
+  .ts-item .k.cause{color:var(--warn);}
+  .ts-item .k.fix{color:var(--ok);}
+  .ts-item div + div{margin-top:6px;}
+
+  /* ---------- Contact / footer ---------- */
+  .contact-card{
+    background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:40px;
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:24px;
+  }
+  .contact-card h3{color:#fff; font-size:22px; margin-bottom:8px;}
+  .contact-card p{color:var(--text-dim); font-size:14px;}
+  .contact-links{display:flex; gap:12px; flex-wrap:wrap;}
+  footer{text-align:center; padding:36px 20px 50px; font-family:var(--sans); font-size:12px; color:var(--text-dim);}
+
+  @media (max-width:600px){
+    header.nav{padding:12px 18px;}
+    section{padding:54px 18px;}
+    .win-body{padding:20px;}
+    .window{top:4%; max-height:90vh;}
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="brand"><span class="dot"></span>junhk09</div>
+  <a class="btn ghost" href="https://github.com/junhk09" target="_blank" rel="noopener">GitHub ↗</a>
+</header>
+
+<nav class="toc" id="toc">
+  <a href="#skills" data-toc>Skills</a>
+  <a href="#projects" data-toc>Projects</a>
+  <a href="#contact" data-toc>Contact</a>
+</nav>
+
+<section class="hero">
+  <h1>김준혁 <span class="hl">/ Junhyeok Kim</span></h1>
+  <div class="role">Embedded SW Developer<span class="caret"></span> · Firmware · IoT · Unity/C#</div>
+  <p class="desc">
+    회로부터 펌웨어, 시스템 소프트웨어까지 <b>하드웨어와 소프트웨어의 경계를 함께 이해</b>하는 개발자입니다.
+    Unity 기반 VR 콘텐츠 개발로 시작해 <b>STM32 · FreeRTOS 임베디드 시스템</b>, <b>IoT 스마트팜</b> 프로젝트를 거치며
+    센서 → MCU → 서버로 이어지는 데이터 흐름 전체를 직접 설계하고 검증해왔습니다.
+  </p>
+  <div class="cta-row">
+    <a class="btn primary" href="#projects">프로젝트 보기</a>
+    <a class="btn ghost" href="#contact">연락하기</a>
+    <a class="btn ghost" href="https://github.com/junhk09" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</section>
+
+<section id="skills">
+  <h2 class="section-title">Skills</h2>
+  <div class="card skills-card">
+    <div class="skills-grid">
+      <div class="skill-cat">
+        <h4>Embedded / Firmware</h4>
+        <div class="tags">
+          <span class="tag blue">C/C++</span>
+          <span class="tag blue">STM32</span>
+          <span class="tag blue">FreeRTOS</span>
+          <span class="tag blue">Verilog/FPGA</span>
+          <span class="tag blue">Linux Driver</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <h4>Systems / Network</h4>
+        <div class="tags">
+          <span class="tag">TCP/IP Socket</span>
+          <span class="tag">Qt</span>
+          <span class="tag">MariaDB</span>
+          <span class="tag">Apache2</span>
+          <span class="tag">REST API</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <h4>AI / Vision</h4>
+        <div class="tags">
+          <span class="tag orange">Python</span>
+          <span class="tag orange">OpenCV</span>
+          <span class="tag orange">TensorFlow</span>
+          <span class="tag orange">YOLO</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <h4>Game / Interactive</h4>
+        <div class="tags">
+          <span class="tag">C# / Unity</span>
+          <span class="tag">UGUI</span>
+          <span class="tag">Animator/FSM</span>
+          <span class="tag">NavMesh AI</span>
+          <span class="tag">Photon</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <h4>Tools</h4>
+        <div class="tags">
+          <span class="tag">Git / CI-CD</span>
+          <span class="tag">Blender</span>
+          <span class="tag">Meta Quest 3</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <h2 class="section-title">Projects</h2>
+  <div class="desktop">
+    <div class="icon-grid">
+      <div class="icon-item" tabindex="0" onclick="openWin('win1')">
+        <div class="icon-top">
+          <div class="icon-glyph">🤖</div>
+          <div class="icon-title">무게 기반<br>자동 분류 시스템</div>
+        </div>
+        <div class="icon-desc">로드셀·6축 로봇팔·컨베이어를 연동한 STM32/FreeRTOS 자동 분류 시스템</div>
+        <small>STM32 · FreeRTOS · Git</small>
+      </div>
+      <div class="icon-item" tabindex="0" onclick="openWin('win2')">
+        <div class="icon-top">
+          <div class="icon-glyph">🌱</div>
+          <div class="icon-title">SmartFarm</div>
+        </div>
+        <div class="icon-desc">라즈베리파이·STM32·아두이노 기반 IoT 스마트팜, 실시간 대시보드 & 웹캠 스트리밍</div>
+        <small>RaspberryPi · MariaDB · IoT</small>
+      </div>
+      <div class="icon-item" tabindex="0" onclick="openWin('win3')">
+        <div class="icon-top">
+          <div class="icon-glyph">🧪</div>
+          <div class="icon-title">원자의 세계 속으로</div>
+        </div>
+        <div class="icon-desc">핸드 트래킹으로 원자·분자를 조작하는 Meta Quest3 VR 화학 교육 콘텐츠</div>
+        <small>Unity · C# · Meta Quest3</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <h2 class="section-title">Contact</h2>
+  <div class="contact-card">
+    <div>
+      <h3>같이 만들고 싶은 프로젝트가 있다면</h3>
+      <p>vovo0904@naver.com · 010-8709-7692</p>
+    </div>
+    <div class="contact-links">
+      <a class="btn primary" href="mailto:vovo0904@naver.com">이메일 보내기</a>
+      <a class="btn ghost" href="https://github.com/junhk09" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+  </div>
+</section>
+
+<footer>© 2026 Junhyeok Kim · Built with HTML/CSS/JS</footer>
+
+<!-- ================= Windows ================= -->
+<div class="win-overlay" id="overlay" onclick="closeAll()"></div>
+
+<!-- Window 1 -->
+<div class="window" id="win1">
+  <div class="win-titlebar" data-drag>
+    <div class="traffic">
+      <button class="close" onclick="closeWin('win1')" aria-label="close"></button>
+      <button class="min" onclick="closeWin('win1')" aria-label="minimize"></button>
+      <button class="max" onclick="toggleMax('win1')" aria-label="maximize"></button>
+    </div>
+    <div class="win-title">weight-sorting-system — README.md</div>
+  </div>
+  <div class="win-body">
+    <div class="proj-header">
+      <h3>무게 기반 자동 분류 시스템</h3>
+      <span class="badge">6인 팀</span>
+    </div>
+    <div class="proj-period">2026.04 – 2026.05 · 서울기술교육센터</div>
+    <p><b>담당역할</b>: Git(CI/CD), 컨베이어벨트 제어, Qt UI 구현, 로봇팔(6축) 구동 시퀀스 로직 설계,
+    PCA9685 서보모터 제어, FreeRTOS Task 분리 및 메모리(Heap/Stack) 최적화, CLI 인터페이스 연동</p>
+    <p><b>사용 기술</b>: C/C++, STM32, FreeRTOS, Git</p>
+
+    <h4 class="sub">개요</h4>
+    <p>로드셀(Load Cell) 센서로 물체 무게를 실시간 측정하고, 측정값에 따라 컨베이어 벨트 구동과
+    로봇팔 피킹(Picking) 동작을 유기적으로 제어하는 통합 자동화 솔루션. 센서 데이터 신뢰성을 높이는
+    필터링 알고리즘과 팀 단위 형상 관리(Configuration Management)에 중점을 두고 진행했습니다.</p>
+
+    <h4 class="sub">시스템 파이프라인</h4>
+    <div class="arch-box">Sensing     로드셀 아날로그 신호 수집 → ADC(AD002) 디지털 변환
+Processing  MCU 내 이동 평균 필터(Moving Average) 적용, 무게 기준값 기반 제어 로직
+Acting      컨베이어 벨트 모터 구동 + 6축 로봇팔 분류(피킹) 시퀀스 제어</div>
+
+    <h4 class="sub">주요 기능</h4>
+    <ul>
+      <li><b>정밀 무게 측정</b>: 로드셀 + AD002 변환 모듈로 아날로그 데이터 수집</li>
+      <li><b>신호 처리 알고리즘</b>: 이동 평균 필터로 센서 노이즈 억제, 측정 정밀도 향상</li>
+      <li><b>실시간 통합 제어</b>: 측정 무게에 따라 컨베이어 이송·로봇팔 분류 동작 실시간 트리거</li>
+      <li><b>협업 최적화</b>: 헤더(.h)/소스(.c·.cpp) 분리로 병합 충돌 최소화하는 모듈 구조 설계</li>
+    </ul>
+
+    <h4 class="sub">Trouble Shooting</h4>
+    <div class="ts-item">
+      <div class="k">문제 · 로봇팔 반복 동작 시 2회차부터 로테이터(5번 모터) 정지</div>
+      <div class="k cause">원인 · 사이클 종료 시 초기 각도 복귀 로직 누락 → 현재·목표 각도 동일해 명령은 실행되나 움직임 없음</div>
+      <div class="k fix">해결 · 매 사이클 종료 시 전 축 초기 각도 복귀 로직 추가</div>
+    </div>
+    <div class="ts-item">
+      <div class="k">문제 · 로봇팔 동작 중 CLI 명령 입력이 한 박자 지연 처리</div>
+      <div class="k cause">원인 · CLI 처리와 로봇팔 제어가 단일 루프에서 순차 처리되는 구조적 문제</div>
+      <div class="k fix">해결 · FreeRTOS에서 CLI Task와 Robot Arm Task를 분리해 병렬 처리 구조로 개선</div>
+    </div>
+    <div class="ts-item">
+      <div class="k">문제 · Task 분리 후 로봇팔 Task 자체가 실행되지 않음</div>
+      <div class="k cause">원인 · ① HAL_Delay(blocking)가 태스크 스케줄링 저해 ② 전체 Task 소요 Stack(18,432B)이 Heap(15,360B) 초과</div>
+      <div class="k fix">해결 · ① HAL_Delay → osDelay(non-blocking) 전환 ② configTOTAL_HEAP_SIZE를 24,576B로 증설</div>
+    </div>
+  </div>
+</div>
+
+<!-- Window 2 -->
+<div class="window" id="win2">
+  <div class="win-titlebar" data-drag>
+    <div class="traffic">
+      <button class="close" onclick="closeWin('win2')" aria-label="close"></button>
+      <button class="min" onclick="closeWin('win2')" aria-label="minimize"></button>
+      <button class="max" onclick="toggleMax('win2')" aria-label="maximize"></button>
+    </div>
+    <div class="win-title">smartfarm-iot — README.md</div>
+  </div>
+  <div class="win-body">
+    <div class="proj-header">
+      <h3>SmartFarm</h3>
+      <span class="badge">2인 팀</span>
+    </div>
+    <div class="proj-period">2026.05 – 2026.06 · 서울기술교육센터</div>
+    <p><b>담당역할</b>: 아두이노–라즈베리파이 ESP-01 WiFi 통신, MariaDB 데이터 관리, Apache 웹서버 연동</p>
+    <p><b>사용 기술</b>: 라즈베리파이, STM32, 아두이노 우노, MariaDB, Apache2, Git, C/C++</p>
+
+    <h4 class="sub">개요</h4>
+    <p>라즈베리파이, 아두이노(ESP-01 WiFi), STM32 F411RE를 결합해 온습도·조도·화재를 실시간 감지하고,
+    감지된 데이터에 따라 RGB LED·DC모터·워터펌프·부저를 자동 제어하는 IoT 스마트팜 시스템.
+    라즈베리파이가 TCP·REST API 서버 역할을 겸하며 MariaDB에 센서 이력을 저장, 웹 대시보드에서
+    실시간 웹캠 스트리밍까지 제공합니다.</p>
+
+    <h4 class="sub">시스템 아키텍처</h4>
+    <div class="arch-box">Arduino(ESP-01 WiFi) --TCP--> RaspberryPi(iot_server)
+                              ├─ MariaDB (센서 데이터 저장)
+                              ├─ HTTP API (Port 8080)
+                              └─ Bluetooth RFCOMM --> STM32 F411RE(HC-06)
+                                                       └ RGB LED·부저·DC모터·워터펌프
+Browser --> RaspberryPi IP --> Apache(Port 80) --> dashboard.html
+                                       └ mjpg-streamer 스트림 임베드 (Port 8090)</div>
+
+    <h4 class="sub">통신 프로토콜</h4>
+    <div class="arch-box">Arduino → Server (TCP)
+  로그인:   [S:PASSWD]
+  센서전송: [KJH_SQL]SENSOR@조도@온도@습도@불꽃
+
+Server → STM32 (Bluetooth)
+  CMD:LED:R/G/B   CMD:MOTOR:ON/OFF
+  CMD:BUZZER:ON/OFF   CMD:PUMP:ON/OFF
+  CMD:LIGHT:HIGH/MID/LOW
+
+STM32 → Server (Bluetooth)
+  STATUS:MOTOR:ON:SPD:75:PUMP:OFF:LED:G:BUZZ:OFF
+
+REST API
+  GET  /api/sensors     최근 센서 데이터
+  GET  /api/actuators   액추에이터 상태
+  GET  /api/status      계절 + 최신 센서
+  POST /api/control     액추에이터 제어</div>
+
+    <h4 class="sub">주요 기능</h4>
+    <ul>
+      <li>온도·습도·조도·화재 데이터 실시간 수집 → MariaDB 저장</li>
+      <li>계절별 RGB LED 자동 제어 (10℃ 이하 파랑 · 10~25℃ 초록 · 25℃ 이상 빨강)</li>
+      <li>화재 감지 시 부저 ON + 워터펌프 5초 자동 가동, 해제 시 자동 종료</li>
+      <li>습도 20% 이하 시 워터펌프 자동 급수, 조도 기반 CDS 연동 LED 밝기 제어(TIM3 PWM)</li>
+      <li>실시간 웹캠 스트리밍 (mjpg-streamer, 640×480 · 15fps) 대시보드 임베드</li>
+    </ul>
+
+    <h4 class="sub">Trouble Shooting</h4>
+    <div class="ts-item">
+      <div class="k">문제 · STM32 TIM1 채널 PWM이 전혀 출력되지 않음</div>
+      <div class="k cause">원인 · TIM1/TIM8은 Advanced-control 타이머라 Main Output Enable(MOE) 비트가 별도로 꺼져 있음</div>
+      <div class="k fix">해결 · __HAL_TIM_MOE_ENABLE() 호출 추가, 모터 드라이버 PWM 정상 출력 확인</div>
+    </div>
+    <div class="ts-item">
+      <div class="k">문제 · 라즈베리파이 GPIO만으로 워터펌프/릴레이가 구동되지 않음</div>
+      <div class="k cause">원인 · GPIO 출력 전류(수 mA)로는 릴레이 코일을 직접 구동할 수 없음</div>
+      <div class="k fix">해결 · MPS2222A 트랜지스터 스위칭 회로 추가, GPIO로 트랜지스터를 구동해 릴레이 코일 전류 공급</div>
+    </div>
+    <div class="ts-item">
+      <div class="k">문제 · 아두이노 ↔ ESP-01 시리얼 통신 데이터가 깨져서 수신됨</div>
+      <div class="k cause">원인 · SoftwareSerial 통신 속도(Baud Rate)가 ESP-01 기본 설정과 불일치</div>
+      <div class="k fix">해결 · 양쪽 baud rate를 동일하게 맞추고 통신 속도를 낮춰 재설정, 정상 수신 확인</div>
+    </div>
+  </div>
+</div>
+
+<!-- Window 3 -->
+<div class="window" id="win3">
+  <div class="win-titlebar" data-drag>
+    <div class="traffic">
+      <button class="close" onclick="closeWin('win3')" aria-label="close"></button>
+      <button class="min" onclick="closeWin('win3')" aria-label="minimize"></button>
+      <button class="max" onclick="toggleMax('win3')" aria-label="maximize"></button>
+    </div>
+    <div class="win-title">into-the-atomic-world — README.md</div>
+  </div>
+  <div class="win-body">
+    <div class="proj-header">
+      <h3>원자의 세계 속으로</h3>
+      <span class="badge">5인 팀 · VR</span>
+    </div>
+    <div class="proj-period">2025.03 – 2025.05 · 한성대학교 캡스톤</div>
+    <p><b>담당역할</b>: Meta Quest3 관련 기능 구현, GUI 구현, GitHub 관리</p>
+    <p><b>사용 기술</b>: Unity, C#, UModeler, Blender, Meta Quest3</p>
+
+    <h4 class="sub">개요</h4>
+    <p>Unity 엔진으로 원자의 세계를 3D 시각화하고, 사용자가 원자를 직접 선택·조작해 분자를 형성하고
+    화학식을 구성할 수 있는 VR 교육 콘텐츠. 컨트롤러 없이 핸드 트래킹만으로 상호작용해 몰입감을 높였고,
+    학습자가 원자 간 결합과 분자 구조를 직관적으로 이해하도록 설계했습니다.</p>
+
+    <h4 class="sub">주요 기능</h4>
+    <ul>
+      <li>오른손 주먹을 쥐고 손바닥이 자신을 향하면 원자 소환용 주기율표 등장</li>
+      <li>주기율표에서 원자를 선택하면 해당 원자가 소환됨</li>
+      <li>검사대 위에 원자·분자를 올리면 관련 설명을 확인 가능</li>
+      <li>GUI로 원하는 분자를 선택 후 필요한 원자를 가져와 조합, 반응식을 풀며 화학 개념 학습</li>
+    </ul>
+
+    <h4 class="sub">Trouble Shooting</h4>
+    <div class="ts-item">
+      <div class="k">문제 · GitHub 형상 관리 시 merge 충돌 발생</div>
+      <div class="k cause">원인 · 브랜치는 나눴지만 같은 Scene 파일에서 작업해 충돌 발생</div>
+      <div class="k fix">해결 · Scene 자체를 새로 생성해 각자 따로 작업 후 merge하는 방식으로 해결</div>
+    </div>
+    <div class="ts-item">
+      <div class="k">문제 · 서로 다른 원자를 올려도 결합 안 되거나, 무관한 원자끼리 결합되는 오판정</div>
+      <div class="k cause">원인 · 결합 가능 여부를 if-else 하드코딩 → 원자 종류가 늘수록 조건문 폭증, 개수 조건(H2O 등) 누락</div>
+      <div class="k fix">해결 · Dictionary&lt;string, MoleculeData&gt; 구조로 리팩토링, "원자 종류+개수"를 키로 관리해 데이터 추가만으로 확장 가능하도록 개선</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let zTop = 902;
+  function openWin(id){
+    document.getElementById('overlay').classList.add('open');
+    const w = document.getElementById(id);
+    w.classList.add('open');
+    zTop += 1;
+    w.style.zIndex = zTop;
+    w.style.top = '6%';
+    w.style.left = '50%';
+    w.style.transform = 'translateX(-50%)';
+  }
+  function closeWin(id){
+    document.getElementById(id).classList.remove('open');
+    const anyOpen = document.querySelectorAll('.window.open').length > 0;
+    if(!anyOpen) document.getElementById('overlay').classList.remove('open');
+  }
+  function closeAll(){
+    document.querySelectorAll('.window.open').forEach(w => w.classList.remove('open'));
+    document.getElementById('overlay').classList.remove('open');
+  }
+  function toggleMax(id){
+    const w = document.getElementById(id);
+    if(w.dataset.max === '1'){
+      w.style.width = 'min(760px,92vw)';
+      w.style.height = '';
+      w.style.top = '6%';
+      w.style.left = '50%';
+      w.style.transform = 'translateX(-50%)';
+      w.dataset.max = '0';
+    } else {
+      w.style.width = '94vw';
+      w.style.height = '90vh';
+      w.style.top = '5vh';
+      w.style.left = '3vw';
+      w.style.transform = 'none';
+      w.dataset.max = '1';
+    }
+  }
+  // Escape key closes topmost window
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape') closeAll();
+  });
+
+  // Dragging
+  (function enableDrag(){
+    let active = null, offX = 0, offY = 0;
+    document.querySelectorAll('[data-drag]').forEach(bar => {
+      bar.addEventListener('mousedown', (e) => {
+        if(e.target.closest('.traffic')) return; // don't drag when clicking buttons
+        const win = bar.closest('.window');
+        active = win;
+        zTop += 1;
+        win.style.zIndex = zTop;
+        const rect = win.getBoundingClientRect();
+        win.style.left = rect.left + 'px';
+        win.style.top = rect.top + 'px';
+        win.style.transform = 'none';
+        offX = e.clientX - rect.left;
+        offY = e.clientY - rect.top;
+        e.preventDefault();
+      });
+    });
+    document.addEventListener('mousemove', (e) => {
+      if(!active) return;
+      let x = e.clientX - offX;
+      let y = e.clientY - offY;
+      x = Math.max(4, Math.min(window.innerWidth - 60, x));
+      y = Math.max(4, Math.min(window.innerHeight - 40, y));
+      active.style.left = x + 'px';
+      active.style.top = y + 'px';
+    });
+    document.addEventListener('mouseup', () => { active = null; });
+  })();
+
+  // Notion-style right-side TOC: highlight current section on scroll
+  (function scrollSpy(){
+    const links = document.querySelectorAll('.toc a[data-toc]');
+    const sections = Array.from(links).map(a => document.querySelector(a.getAttribute('href')));
+    const setActive = (id) => {
+      links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
+    };
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting) setActive(entry.target.id);
+      });
+    }, { rootMargin: '-40% 0px -50% 0px', threshold: 0 });
+    sections.forEach(s => { if(s) observer.observe(s); });
+  })();
+</script>
+</body>
+</html>
