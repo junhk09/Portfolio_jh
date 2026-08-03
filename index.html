@@ -153,30 +153,29 @@
     display:none; flex-direction:column;
     position:fixed; top:6%; left:50%; transform:translateX(-50%);
     width:min(760px,92vw); max-height:86vh;
-    background:var(--panel); border:1px solid var(--border); border-radius:12px;
+    background:var(--panel); border:1px solid var(--border); border-radius:6px;
     box-shadow:0 30px 80px rgba(0,0,0,.55);
     z-index:901; overflow:hidden;
   }
   .window.open{display:flex;}
   .win-titlebar{
-    display:flex; align-items:center; gap:8px; padding:12px 14px;
+    display:flex; align-items:center; gap:8px; padding:0 0 0 14px; height:38px;
     background:var(--panel-2); border-bottom:1px solid var(--border);
     cursor:grab; user-select:none;
   }
   .win-titlebar:active{cursor:grabbing;}
-  .traffic{display:flex; gap:8px; margin-right:10px;}
+  .win-title{font-family:var(--sans); font-size:12.5px; color:var(--text-dim); flex:1; text-align:left;}
+  .traffic{display:flex; height:100%; margin-left:auto;}
   .traffic button{
-    width:13px; height:13px; border-radius:50%; border:none; cursor:pointer; padding:0;
-    position:relative;
+    width:44px; height:100%; border:none; cursor:pointer; padding:0;
+    background:transparent; color:var(--text-dim);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--sans); font-size:11px; line-height:1;
+    transition:background .1s, color .1s;
   }
-  .traffic .close{background:var(--danger);}
-  .traffic .min{background:var(--warn);}
-  .traffic .max{background:var(--ok);}
-  .traffic button::after{
-    content:""; position:absolute; inset:0; border-radius:50%;
-    box-shadow:inset 0 0 0 1px rgba(0,0,0,.15);
-  }
-  .win-title{font-family:var(--sans); font-size:12.5px; color:var(--text-dim); flex:1; text-align:center; padding-right:60px;}
+  .traffic button svg{width:10px; height:10px; display:block;}
+  .traffic .min:hover, .traffic .max:hover{background:rgba(255,255,255,.08); color:var(--text);}
+  .traffic .close:hover{background:var(--danger); color:#fff;}
   .win-body{padding:26px 28px; overflow-y:auto; font-size:14.5px;}
   .win-body::-webkit-scrollbar{width:9px;}
   .win-body::-webkit-scrollbar-thumb{background:var(--border); border-radius:5px;}
@@ -360,12 +359,12 @@
 <!-- Window 1 -->
 <div class="window" id="win1">
   <div class="win-titlebar" data-drag>
-    <div class="traffic">
-      <button class="close" onclick="closeWin('win1')" aria-label="close"></button>
-      <button class="min" onclick="closeWin('win1')" aria-label="minimize"></button>
-      <button class="max" onclick="toggleMax('win1')" aria-label="maximize"></button>
-    </div>
     <div class="win-title">weight-sorting-system — README.md</div>
+    <div class="traffic">
+      <button class="min" onclick="closeWin('win1')" aria-label="minimize"><svg viewBox="0 0 10 10"><line x1="0" y1="5" x2="10" y2="5" stroke="currentColor" stroke-width="1"/></svg></button>
+      <button class="max" onclick="toggleMax('win1')" aria-label="maximize"><svg viewBox="0 0 10 10"><rect x="0.5" y="0.5" width="9" height="9" fill="none" stroke="currentColor" stroke-width="1"/></svg></button>
+      <button class="close" onclick="closeWin('win1')" aria-label="close"><svg viewBox="0 0 10 10"><line x1="0" y1="0" x2="10" y2="10" stroke="currentColor" stroke-width="1"/><line x1="10" y1="0" x2="0" y2="10" stroke="currentColor" stroke-width="1"/></svg></button>
+    </div>
   </div>
   <div class="win-body">
     <div class="proj-header">
@@ -417,12 +416,12 @@ Acting      컨베이어 벨트 모터 구동 + 6축 로봇팔 분류(피킹) �
 <!-- Window 2 -->
 <div class="window" id="win2">
   <div class="win-titlebar" data-drag>
-    <div class="traffic">
-      <button class="close" onclick="closeWin('win2')" aria-label="close"></button>
-      <button class="min" onclick="closeWin('win2')" aria-label="minimize"></button>
-      <button class="max" onclick="toggleMax('win2')" aria-label="maximize"></button>
-    </div>
     <div class="win-title">smartfarm-iot — README.md</div>
+    <div class="traffic">
+      <button class="min" onclick="closeWin('win2')" aria-label="minimize"><svg viewBox="0 0 10 10"><line x1="0" y1="5" x2="10" y2="5" stroke="currentColor" stroke-width="1"/></svg></button>
+      <button class="max" onclick="toggleMax('win2')" aria-label="maximize"><svg viewBox="0 0 10 10"><rect x="0.5" y="0.5" width="9" height="9" fill="none" stroke="currentColor" stroke-width="1"/></svg></button>
+      <button class="close" onclick="closeWin('win2')" aria-label="close"><svg viewBox="0 0 10 10"><line x1="0" y1="0" x2="10" y2="10" stroke="currentColor" stroke-width="1"/><line x1="10" y1="0" x2="0" y2="10" stroke="currentColor" stroke-width="1"/></svg></button>
+    </div>
   </div>
   <div class="win-body">
     <div class="proj-header">
@@ -499,12 +498,12 @@ REST API
 <!-- Window 3 -->
 <div class="window" id="win3">
   <div class="win-titlebar" data-drag>
-    <div class="traffic">
-      <button class="close" onclick="closeWin('win3')" aria-label="close"></button>
-      <button class="min" onclick="closeWin('win3')" aria-label="minimize"></button>
-      <button class="max" onclick="toggleMax('win3')" aria-label="maximize"></button>
-    </div>
     <div class="win-title">into-the-atomic-world — README.md</div>
+    <div class="traffic">
+      <button class="min" onclick="closeWin('win3')" aria-label="minimize"><svg viewBox="0 0 10 10"><line x1="0" y1="5" x2="10" y2="5" stroke="currentColor" stroke-width="1"/></svg></button>
+      <button class="max" onclick="toggleMax('win3')" aria-label="maximize"><svg viewBox="0 0 10 10"><rect x="0.5" y="0.5" width="9" height="9" fill="none" stroke="currentColor" stroke-width="1"/></svg></button>
+      <button class="close" onclick="closeWin('win3')" aria-label="close"><svg viewBox="0 0 10 10"><line x1="0" y1="0" x2="10" y2="10" stroke="currentColor" stroke-width="1"/><line x1="10" y1="0" x2="0" y2="10" stroke="currentColor" stroke-width="1"/></svg></button>
+    </div>
   </div>
   <div class="win-body">
     <div class="proj-header">
