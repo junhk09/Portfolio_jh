@@ -114,6 +114,14 @@
   .tag.blue{color:var(--accent);}
   .tag.orange{color:var(--accent-3);}
 
+  /* ---------- Education ---------- */
+  .edu-card{padding:26px 28px;}
+  .edu-item + .edu-item{margin-top:20px; padding-top:20px; border-top:1px solid var(--border);}
+  .edu-top{display:flex; flex-wrap:wrap; justify-content:space-between; align-items:baseline; gap:8px; margin-bottom:6px;}
+  .edu-top h4{font-size:15.5px; color:#fff; font-weight:700;}
+  .edu-period{font-family:var(--sans); font-size:12px; color:var(--accent-2); white-space:nowrap;}
+  .edu-item p{color:var(--text-dim); font-size:13.5px;}
+
   /* ---------- Projects (desktop icons) ---------- */
   .desktop{
     background:var(--bg-alt); border:1px solid var(--border); border-radius:14px;
@@ -230,6 +238,7 @@
 </header>
 
 <nav class="toc" id="toc">
+  <a href="#education" data-toc>Education</a>
   <a href="#skills" data-toc>Skills</a>
   <a href="#projects" data-toc>Projects</a>
   <a href="#contact" data-toc>Contact</a>
@@ -237,16 +246,39 @@
 
 <section class="hero">
   <h1>김준혁 <span class="hl">/ Junhyeok Kim</span></h1>
-  <div class="role">Embedded SW Developer<span class="caret"></span> · Firmware · IoT · Unity/C#</div>
+  <div class="role">Embedded SW Developer<span class="caret"></span> · Firmware · IoT · On-device AI</div>
   <p class="desc">
     회로부터 펌웨어, 시스템 소프트웨어까지 <b>하드웨어와 소프트웨어의 경계를 함께 이해</b>하는 개발자입니다.
     Unity 기반 VR 콘텐츠 개발로 시작해 <b>STM32 · FreeRTOS 임베디드 시스템</b>, <b>IoT 스마트팜</b> 프로젝트를 거치며
     센서 → MCU → 서버로 이어지는 데이터 흐름 전체를 직접 설계하고 검증해왔습니다.
+    현재는 대한상공회의소 서울기술교육센터 <b>&lt;AI 시스템반도체 SW 개발자&gt;</b> 과정(2026.02–2026.08)에서
+    SoC 디지털 회로설계, 펌웨어 개발, Cortex-M 임베디드 구현, <b>온디바이스 AI</b>, 리눅스 커널 및 디바이스 드라이버까지
+    학습하며 임베디드와 AI를 함께 다루는 개발자로 역량을 넓히고 있습니다.
   </p>
   <div class="cta-row">
     <a class="btn primary" href="#projects">프로젝트 보기</a>
     <a class="btn ghost" href="#contact">연락하기</a>
     <a class="btn ghost" href="https://github.com/junhk09" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</section>
+
+<section id="education">
+  <h2 class="section-title">Education &amp; Training</h2>
+  <div class="card edu-card">
+    <div class="edu-item">
+      <div class="edu-top">
+        <h4>AI 시스템반도체 SW 개발자 과정</h4>
+        <span class="edu-period">2026.02 – 2026.08 · 대한상공회의소 서울기술교육센터</span>
+      </div>
+      <p>SoC 디지털 회로설계, 펌웨어 개발, Cortex-M 임베디드 구현, 온디바이스 AI, 리눅스 커널 및 디바이스 드라이버 과정 이수 중</p>
+    </div>
+    <div class="edu-item">
+      <div class="edu-top">
+        <h4>한성대학교 · 컴퓨터공학과</h4>
+        <span class="edu-period">2020.03 – 2026.08 · 학점 3.32/4.5</span>
+      </div>
+      <p>캡스톤디자인 장려상 수상 (2025.05)</p>
+    </div>
   </div>
 </section>
 
@@ -261,7 +293,16 @@
           <span class="tag blue">STM32</span>
           <span class="tag blue">FreeRTOS</span>
           <span class="tag blue">Verilog/FPGA</span>
-          <span class="tag blue">Linux Driver</span>
+          <span class="tag blue">Linux Programming</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <h4>On-device AI · SoC </h4>
+        <div class="tags">
+          <span class="tag blue">SoC 회로설계</span>
+          <span class="tag blue">Cortex-M</span>
+          <span class="tag blue">On-device AI</span>
+          <span class="tag blue">Linux Kernel/Driver</span>
         </div>
       </div>
       <div class="skill-cat">
